@@ -14,6 +14,7 @@ import {
 import { db } from "../firebase.config";
 import { toast } from "react-toastify";
 import Spinner from "../components/Spinner";
+import ListingItem from "../components/ListingItem";
 
 const Category = () => {
   const [listings, setListings] = useState(null);
@@ -55,7 +56,7 @@ const Category = () => {
     };
 
     fetchListings();
-  }, []);
+  }, [params.categoryName]);
 
   return (
     <div className="category">
@@ -70,7 +71,19 @@ const Category = () => {
       {loading ? (
         <Spinner />
       ) : listings && listings.length > 0 ? (
-        <></>
+        <>
+          <main>
+            <ul className="categoryListings">
+              {listings.map((listing) => (
+                <ListingItem
+                  listing={listing.data}
+                  id={listing.id}
+                  key={listing.id}
+                />
+              ))}
+            </ul>
+          </main>
+        </>
       ) : (
         <p>No listings for {params.categoryName}</p>
       )}
